@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votre semaine « pilote automatique » - Chloé</title>
+<style>
+  :root{
+    --cream:#FBF6EF;
+    --card:#FFFFFF;
+    --ink:#2E2A32;
+    --ink-soft:#5F5866;
+    --plum:#6B4A7A;
+    --plum-light:#F1E9F4;
+    --sage:#7A9A7E;
+    --sage-light:#EAF1EA;
+    --peach:#E8956B;
+    --peach-light:#FDEDE3;
+    --gold:#C9A227;
+    --line:#E8DFD4;
+    --radius:18px;
+    --shadow:0 2px 10px rgba(46,42,50,.05), 0 12px 32px rgba(46,42,50,.05);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Nunito,"Helvetica Neue",Arial,sans-serif;
+    font-size:16.5px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- Header ---------- */
+  header.hero{
+    background:linear-gradient(160deg,#6B4A7A 0%,#523A60 100%);
+    color:#fff;
+    padding:48px 20px 56px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";position:absolute;inset:auto -10% -60px -10%;height:120px;
+    background:var(--cream);border-radius:50% 50% 0 0;
+  }
+  .hero-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}
+  .kicker{
+    display:inline-block;letter-spacing:.14em;text-transform:uppercase;
+    font-size:11.5px;font-weight:700;opacity:.85;
+    border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;margin-bottom:18px;
+  }
+  h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 14px;font-weight:800}
+  .hero p{margin:0 auto;max-width:620px;opacity:.92;font-size:17px}
+  .hero .sign{margin-top:22px;font-size:13.5px;opacity:.75}
+
+  /* ---------- Nav ---------- */
+  nav.jump{
+    position:sticky;top:0;z-index:50;background:rgba(251,246,239,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+    margin:0 -20px 34px;padding:10px 20px;
+  }
+  .jump-inner{display:flex;gap:8px;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+  .jump-inner::-webkit-scrollbar{display:none}
+  nav.jump a{
+    white-space:nowrap;font-size:13.5px;font-weight:600;text-decoration:none;
+    color:var(--plum);background:var(--plum-light);padding:7px 13px;border-radius:999px;
+  }
+  nav.jump a:hover{background:#E4D6EA}
+
+  /* ---------- Sections ---------- */
+  section{margin:0 0 42px;scroll-margin-top:74px}
+  h2{
+    font-size:23px;font-weight:800;margin:0 0 6px;display:flex;align-items:center;gap:10px;
+  }
+  h2 .num{
+    flex:none;width:30px;height:30px;border-radius:10px;background:var(--plum);color:#fff;
+    font-size:15px;display:grid;place-items:center;font-weight:800;
+  }
+  .lede{color:var(--ink-soft);margin:0 0 20px;font-size:15.5px}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 24px;box-shadow:var(--shadow);
+  }
+  .card + .card{margin-top:14px}
+
+  /* ---------- Règles d'or ---------- */
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .rule{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow);border-top:4px solid var(--peach);
+  }
+  .rule h3{margin:0 0 6px;font-size:16px;font-weight:800}
+  .rule p{margin:0;font-size:14.5px;color:var(--ink-soft)}
+  .rule.g{border-top-color:var(--sage)}
+  .rule.p{border-top-color:var(--plum)}
+  .rule.y{border-top-color:var(--gold)}
+
+  /* ---------- Protéines ---------- */
+  .prot{
+    background:var(--sage-light);border:1px solid #D6E3D7;border-radius:var(--radius);padding:22px 24px;
+  }
+  .prot-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+  .gauge{background:#fff;border-radius:14px;padding:16px;border:1px solid #D6E3D7}
+  .gauge .lab{font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .gauge .val{font-size:28px;font-weight:800;line-height:1.1;margin:4px 0 8px}
+  .bar{height:10px;border-radius:999px;background:#E9E2DA;overflow:hidden}
+  .bar span{display:block;height:100%;border-radius:999px}
+  .bar .now{width:52%;background:var(--peach)}
+  .bar .goal{width:100%;background:var(--sage)}
+
+  /* ---------- Tableau semaine ---------- */
+  .day{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow);
+  }
+  .day-head{
+    display:flex;align-items:center;gap:12px;padding:14px 20px;
+    background:var(--plum-light);border-bottom:1px solid var(--line);
+  }
+  .day-head .d{font-weight:800;font-size:17px;color:var(--plum)}
+  .day-head .tag{
+    margin-left:auto;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    background:#fff;color:var(--ink-soft);border:1px solid var(--line);padding:4px 10px;border-radius:999px;
+  }
+  .meals{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+  .meal{padding:16px 20px;border-right:1px solid var(--line)}
+  .meal:last-child{border-right:none}
+  .meal .when{
+    font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--peach);margin-bottom:6px;
+  }
+  .meal .what{font-size:14.8px;line-height:1.5}
+  .meal .what b{font-weight:700}
+  .meal .note{font-size:13px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .arrow{
+    display:inline-block;font-size:12px;font-weight:700;color:var(--sage);
+    background:var(--sage-light);border-radius:6px;padding:2px 7px;margin-top:8px;
+  }
+
+  /* ---------- Checklist ---------- */
+  ul.check{list-style:none;padding:0;margin:0}
+  ul.check li{
+    display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);
+    font-size:15px;
+  }
+  ul.check li:last-child{border-bottom:none}
+  ul.check input{
+    flex:none;width:19px;height:19px;margin-top:2px;accent-color:var(--plum);cursor:pointer;
+  }
+  ul.check li.done label{opacity:.45;text-decoration:line-through}
+  ul.check label{cursor:pointer}
+
+  /* ---------- Courses ---------- */
+  .shop{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .aisle{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;
+    box-shadow:var(--shadow);
+  }
+  .aisle h3{
+    margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--plum);font-weight:800;display:flex;align-items:center;gap:8px;
+  }
+  .aisle ul{margin:0;padding:0;list-style:none}
+  .aisle li{
+    display:flex;gap:9px;align-items:flex-start;font-size:14.5px;padding:5px 0;
+  }
+  .aisle input{flex:none;width:17px;height:17px;margin-top:3px;accent-color:var(--sage);cursor:pointer}
+  .aisle li.done label{opacity:.4;text-decoration:line-through}
+
+  /* ---------- Rituel ---------- */
+  .timeline{position:relative;padding-left:34px}
+  .timeline::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .step{position:relative;padding:0 0 20px}
+  .step:last-child{padding-bottom:0}
+  .step::before{
+    content:"";position:absolute;left:-28px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--peach);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--peach);
+  }
+  .step .t{font-weight:800;font-size:14px;color:var(--peach);letter-spacing:.03em}
+  .step .b{font-size:15px;margin-top:2px}
+
+  /* ---------- Callouts ---------- */
+  .callout{
+    border-left:4px solid var(--plum);background:var(--plum-light);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin-top:16px;font-size:15px;
+  }
+  .callout.peach{border-left-color:var(--peach);background:var(--peach-light)}
+  .callout.sage{border-left-color:var(--sage);background:var(--sage-light)}
+  .callout b{font-weight:800}
+
+  /* ---------- Divers ---------- */
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .pill{
+    font-size:13.5px;background:var(--peach-light);color:#9C5A2E;border:1px solid #F3D5C1;
+    padding:5px 12px;border-radius:999px;font-weight:600;
+  }
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  footer{
+    margin-top:50px;padding-top:26px;border-top:1px solid var(--line);
+    text-align:center;color:var(--ink-soft);font-size:13.5px;
+  }
+  footer strong{color:var(--plum)}
+
+  @media (max-width:900px){
+    .meals{grid-template-columns:1fr}
+    .meal{border-right:none;border-bottom:1px solid var(--line)}
+    .meal:last-child{border-bottom:none}
+  }
+  @media (max-width:720px){
+    .prot-grid,.two{grid-template-columns:1fr}
+  }
+  @media print{
+    nav.jump{display:none}
+    body{background:#fff}
+    header.hero{background:#6B4A7A !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .day,.card,.aisle,.rule{break-inside:avoid;box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">Semaine type · pilote automatique</span>
+    <h1>Vous n'avez plus à réfléchir.<br>Juste à suivre.</h1>
+    <p>Une semaine de repas pensée pour un seul objectif : que vous mangiez <em>assez</em>, sans jamais avoir à décider, ni à cuisiner. Zéro recette. Que de l'assemblage.</p>
+    <div class="sign">Construit pour vous après notre consultation du 4 août 2026 - Florian Loustalet, diététicien-nutritionniste</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="jump">
+  <div class="jump-inner">
+    <a href="#semaine">La semaine</a>
+    <a href="#rituel">Rituel du soir</a>
+    <a href="#courses">Liste de courses</a>
+  </div>
+</nav>
+
+<!-- ===================== SEMAINE ===================== -->
+<section id="semaine">
+  <h2><span class="num">1</span> Votre semaine, jour par jour</h2>
+  <p class="lede">
+    Le principe : <b>le repas du soir se fait en double</b>. Une part dans l'assiette, une part dans la gamelle du lendemain midi. Vous ne cuisinez donc qu'une fois par jour, 15 minutes, et le midi est réglé sans y penser.
+  </p>
+
+  <!-- LUNDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Lundi</span><span class="tag">Jour de courses</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what"><b>Porridge express</b> (préparé dimanche soir) : flocons d'avoine + fromage blanc + compote + pépites de chocolat<br>+ <b>1 shaker de protéines</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what">1 poignée d'amandes + 1 compote</div>
+        <div class="note">Non négociable : c'est elle qui coupe l'envie de sucre de fin de journée.</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what">Sandwich ou salade achetée + <b>1 skyr</b> + 1 fruit</div>
+        <div class="note">Dernier midi « à l'arrache » : à partir de mardi, la gamelle prend le relais.</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">1 skyr ou fromage blanc + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Pâtes-thon express</b> : pâtes + 1 boîte de thon + tomates cerises + maïs + huile d'olive + citron</div>
+        <span class="arrow">↳ ×2 = la gamelle de mardi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Mardi</span><span class="tag">Le système démarre</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + <b>1 shaker de protéines</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what">1 barre de céréales + 1 poignée de noix de cajou</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : pâtes-thon-tomates-maïs</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">1 compote + 1 poignée d'amandes</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Wrap poulet-crudités</b> : galette + blanc de poulet en tranches + carottes râpées sous vide + fromage frais + salade</div>
+        <span class="arrow">↳ ×2 = le wrap de mercredi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MERCREDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Mercredi</span><span class="tag">15 min chrono</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + <b>1 shaker de protéines</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what">1 compote à boire + amandes</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : wrap poulet-crudités (préparé la veille, emballé serré)</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">1 skyr + quelques pépites de chocolat</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Bowl quinoa-lentilles</b> : 1 sachet micro-ondable + blanc de poulet + betteraves cuites sous vide + féta + huile d'olive</div>
+        <span class="arrow">↳ ×2 = la gamelle de jeudi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JEUDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Jeudi</span><span class="tag">Zéro cuisson</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + <b>1 shaker de protéines</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what">1 barre de céréales + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : bowl quinoa-lentilles, poulet, betterave, féta</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">Fromage blanc + compote</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Riz &amp; saumon fumé</b> : 1 sachet de riz précuit (à froid, ça marche) + saumon fumé ou crevettes cuites + concombre + sauce fromage blanc-citron</div>
+        <span class="arrow">↳ ×2 = la gamelle de vendredi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENDREDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Vendredi</span><span class="tag">Soir apéro possible</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + <b>1 shaker de protéines</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what">Amandes + compote</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : riz, saumon fumé, concombre</div>
+        <div class="note">Si apéro ce soir : forcez un peu la dose au déjeuner.</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">Skyr + fruit - <b>surtout si apéro</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Apéro assumé</b>, sans calcul.<br>Sinon : <b>semoule + pois chiches</b> + tomate + féta + huile d'olive</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAMEDI -->
+  <div class="day">
+    <div class="day-head"><span class="d">Samedi</span><span class="tag">Plus de temps</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + shaker - ou tartines beurre de cacahuète + banane + fromage blanc</div>
+      </div>
+      <div class="meal">
+        <div class="when">Milieu de matinée</div>
+        <div class="what">Selon la faim</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Pâtes + jambon/blanc de dinde</b> + sauce tomate + fromage râpé + poêlée de légumes surgelée (5 min au micro-ondes)</div>
+        <span class="arrow">↳ ×2 = la gamelle de dimanche midi</span>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">Ce qui vous fait plaisir. Vraiment.</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what">Libre - restaurant, commande, ou reste du midi</div>
+        <div class="note">Un soir libre par semaine fait partie du plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIMANCHE -->
+  <div class="day">
+    <div class="day-head"><span class="d">Dimanche</span><span class="tag">On relance la semaine</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + shaker</div>
+      </div>
+      <div class="meal">
+        <div class="when">Milieu de matinée</div>
+        <div class="what">Selon la faim</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Reste</b> : pâtes-jambon-légumes de la veille</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">Skyr + fruit + amandes</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Pommes de terre vapeur sous vide + maquereau ou thon</b> + crudités + sauce yaourt</div>
+        <span class="arrow">↳ ×2 = la gamelle de lundi midi + le porridge de lundi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout sage">
+    <b>Vous n'aimez pas un plat ?</b> Dites-le moi, on le remplace. Ce document est fait pour évoluer : je note vos retours et je vous renvoie une version corrigée. On ne garde que ce qui passe.
+    <br><br>
+    <b>À noter :</b> j'ai volontairement sorti les œufs durs du plan - vous m'avez dit en être dégoûtée. Les protéines viennent d'ailleurs (thon, poulet en tranches, saumon, féta, laitages, poudre).
+  </div>
+</section>
+
+<!-- ===================== RITUEL ===================== -->
+<section id="rituel">
+  <h2><span class="num">2</span> Le rituel du soir · 30 minutes, pas une de plus</h2>
+  <p class="lede">C'est le seul moment d'organisation de la journée. Mettez-le dans votre agenda, avec une alerte, tous les soirs à la même heure. Le cerveau passe beaucoup plus facilement à l'action quand la tâche est déjà « programmée ».</p>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="step">
+        <div class="t">0 → 15 min</div>
+        <div class="b">Le repas du soir, en <b>double quantité</b>. Assemblage uniquement : on ouvre, on verse, on mélange.</div>
+      </div>
+      <div class="step">
+        <div class="t">15 → 20 min</div>
+        <div class="b">La moitié part directement dans <b>la gamelle du lendemain</b>. Au frigo, c'est fini, on n'y pense plus.</div>
+      </div>
+      <div class="step">
+        <div class="t">20 → 25 min</div>
+        <div class="b">Le <b>porridge du lendemain</b> dans un pot : flocons + fromage blanc + compote. Au frigo. (Les pépites de chocolat le matin, pour le plaisir de les ajouter.)</div>
+      </div>
+      <div class="step">
+        <div class="t">25 → 30 min</div>
+        <div class="b">Tout au lave-vaisselle. <b>Minuteur terminé = on s'arrête</b>, même si ce n'est pas parfait.</div>
+      </div>
+    </div>
+
+    <div class="callout peach">
+      <b>Le contrat.</b> 30 minutes maximum. Si au bout de 30 minutes il reste de la vaisselle, elle attend demain. Le but n'est pas une cuisine propre, c'est deux repas prêts.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 10px;font-size:16px">À caler dans l'agenda cette semaine</h3>
+    <ul class="check">
+      <li><input type="checkbox" id="a1"><label for="a1">Alerte récurrente <b>« 30 min cuisine »</b>, tous les soirs à heure fixe</label></li>
+      <li><input type="checkbox" id="a2"><label for="a2">Alerte <b>« collation »</b> à 10h30 et 16h30 (les deux trous de la journée)</label></li>
+      <li><input type="checkbox" id="a3"><label for="a3">Un créneau de courses hebdo - <b>avec la liste ci-dessous</b>, sans rien ajouter d'autre</label></li>
+      <li><input type="checkbox" id="a4"><label for="a4">Deux soirées bloquées « rien de prévu » - le repos fait partie du traitement</label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== COURSES ===================== -->
+<section id="courses">
+  <h2><span class="num">3</span> La liste de courses</h2>
+  <p class="lede">Vous prenez ça, vous ne réfléchissez pas. Tout est choisi pour un seul critère : <b>zéro préparation</b>. Cochez au fur et à mesure dans le magasin.</p>
+
+  <div class="shop">
+    <div class="aisle">
+      <h3>🍚 Féculents prêts</h3>
+      <ul>
+        <li><input type="checkbox" id="c1"><label for="c1">Sachets de riz précuit micro-ondables ×3</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">Sachets quinoa &amp; lentilles ×2</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">Semoule à couscous (gonfle à l'eau chaude)</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4">Pâtes (format court)</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5">Pommes de terre vapeur sous vide</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6">Galettes à wraps</label></li>
+        <li><input type="checkbox" id="c7"><label for="c7">Flocons d'avoine</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥩 Protéines sans cuisson</h3>
+      <ul>
+        <li><input type="checkbox" id="c8"><label for="c8">Thon en conserve (au naturel) ×4</label></li>
+        <li><input type="checkbox" id="c9"><label for="c9">Maquereau ou sardines en conserve ×2</label></li>
+        <li><input type="checkbox" id="c10"><label for="c10">Blanc de poulet en tranches ×2 barquettes</label></li>
+        <li><input type="checkbox" id="c11"><label for="c11">Jambon ou blanc de dinde</label></li>
+        <li><input type="checkbox" id="c12"><label for="c12">Saumon fumé (ou crevettes cuites)</label></li>
+        <li><input type="checkbox" id="c13"><label for="c13">Pois chiches en conserve</label></li>
+        <li><input type="checkbox" id="c14"><label for="c14">Féta</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥛 Frais &amp; laitages</h3>
+      <ul>
+        <li><input type="checkbox" id="c15"><label for="c15">Fromage blanc grand format (1 kg)</label></li>
+        <li><input type="checkbox" id="c16"><label for="c16">Skyr ×5-6 pots</label></li>
+        <li><input type="checkbox" id="c17"><label for="c17">Fromage frais type St Morêt / Philadelphia</label></li>
+        <li><input type="checkbox" id="c18"><label for="c18">Fromage râpé</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥕 Végétal zéro épluchage</h3>
+      <ul>
+        <li><input type="checkbox" id="c19"><label for="c19">Carottes râpées sous vide ×2</label></li>
+        <li><input type="checkbox" id="c20"><label for="c20">Betteraves cuites sous vide</label></li>
+        <li><input type="checkbox" id="c21"><label for="c21">Salade en sachet</label></li>
+        <li><input type="checkbox" id="c22"><label for="c22">Tomates cerises ×2 barquettes</label></li>
+        <li><input type="checkbox" id="c23"><label for="c23">Concombre</label></li>
+        <li><input type="checkbox" id="c24"><label for="c24">Maïs en conserve</label></li>
+        <li><input type="checkbox" id="c25"><label for="c25">Poêlée de légumes surgelée ×2</label></li>
+        <li><input type="checkbox" id="c26"><label for="c26">Sauce tomate en bocal</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🍫 Collations (le nerf de la guerre)</h3>
+      <ul>
+        <li><input type="checkbox" id="c27"><label for="c27">Compotes sans sucres ajoutés ×12 (dont à boire)</label></li>
+        <li><input type="checkbox" id="c28"><label for="c28">Amandes + noix de cajou</label></li>
+        <li><input type="checkbox" id="c29"><label for="c29">Barres de céréales - liste d'ingrédients courte</label></li>
+        <li><input type="checkbox" id="c30"><label for="c30">Pépites de chocolat noir</label></li>
+        <li><input type="checkbox" id="c31"><label for="c31">Fruits faciles : bananes, clémentines, raisin</label></li>
+        <li><input type="checkbox" id="c32"><label for="c32">Beurre de cacahuète</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🧂 Le tiroir « goût »</h3>
+      <ul>
+        <li><input type="checkbox" id="c33"><label for="c33">Huile d'olive correcte</label></li>
+        <li><input type="checkbox" id="c34"><label for="c34">Citrons (ou jus de citron)</label></li>
+        <li><input type="checkbox" id="c35"><label for="c35">Herbes surgelées : ciboulette, aneth, basilic</label></li>
+        <li><input type="checkbox" id="c36"><label for="c36">Vinaigre balsamique</label></li>
+        <li><input type="checkbox" id="c37"><label for="c37">Épices : paprika fumé, curry, ail semoule</label></li>
+      </ul>
+      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:8px;font-style:italic">
+        C'est ce tiroir qui fait la différence entre « je me nourris » et « c'est bon ». 10 secondes d'effort, gros retour.
+      </div>
+    </div>
+
+    <div class="aisle">
+      <h3>📦 À commander en ligne</h3>
+      <ul>
+        <li><input type="checkbox" id="c38"><label for="c38"><b>Protéine végétale</b> - Nutripure ou Greenwhey</label></li>
+        <li><input type="checkbox" id="c39"><label for="c39">Un shaker, à laisser en évidence sur le plan de travail</label></li>
+        <li><input type="checkbox" id="c40"><label for="c40">4-6 boîtes à gamelle identiques (fin du casse-tête du couvercle)</label></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Florian Loustalet</strong> · Diététicien-nutritionniste, Toulouse<br>
+  Document évolutif - vos retours servent à le corriger. Version du 4 août 2026.
+</footer>
+
+</div>
+
+<script>
+  // Coche visuelle : barre le texte quand la case est cochée (état en mémoire, session courante)
+  document.querySelectorAll('input[type=checkbox]').forEach(function(box){
+    box.addEventListener('change', function(){
+      var li = box.closest('li');
+      if (li) li.classList.toggle('done', box.checked);
+    });
+  });
+</script>
+
+</body>
+</html>
