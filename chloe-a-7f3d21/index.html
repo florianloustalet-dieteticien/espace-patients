@@ -238,16 +238,38 @@
   .two .card + .card{margin-top:0}
   #semaine .callout + .day{margin-top:18px}
   .recipe .tip{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin-top:10px}
+
+  /* ---------- Semaines (onglets) ---------- */
+  .switch{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px}
+  .switch button{flex:1 1 220px;font:inherit;cursor:pointer;text-align:left;border:1px solid var(--line);
+    background:var(--card);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);color:var(--ink)}
+  .switch button .k{display:block;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+  .switch button .v{display:block;font-size:16px;font-weight:800}
+  .switch button[aria-selected="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+  .switch button[aria-selected="true"] .k{color:rgba(255,255,255,.8)}
+  [id$="-semaine"] .callout + .day,[id$="-semaine"] .callout + .pont{margin-top:18px}
+  .week{display:none}
+  .week.active{display:block}
+  .pont{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+  .pont-head{padding:14px 20px;background:var(--sage-light);border-bottom:1px solid var(--line)}
+  .pont-head b{color:#4E6E52;font-size:17px}
+  .pont-row{display:grid;grid-template-columns:150px 1fr 1fr;border-bottom:1px solid var(--line)}
+  .pont-row:last-child{border-bottom:none}
+  .pont-row > div{padding:12px 20px;font-size:14.8px}
+  .pont-row .dd{font-weight:800;color:#4E6E52}
+  .pont-row .lbl{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--peach)}
+  .pont-foot{padding:12px 20px;font-size:14px;color:var(--ink-soft);background:#FCFAF7}
+  @media (max-width:720px){.pont-row{grid-template-columns:1fr}.pont-row > div{padding:8px 20px}}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">Semaine type · pilote automatique · v3</span>
+    <span class="kicker">Semaine type · pilote automatique</span>
     <h1>Toujours en pilote automatique.<br>Avec un peu plus de saveurs.</h1>
-    <p>La même structure qui vous réussit, la même gamelle du lendemain, et trois soirs où l'on cuisine un peu plus - pour varier, à votre rythme.</p>
-    <div class="sign">Construit pour vous après notre consultation du 4 août 2026 - Florian Loustalet, diététicien-nutritionniste<br>Version du 5 octobre 2026 - on repart, avec 3 vraies recettes, à votre demande</div>
+    <p>La même structure qui vous réussit, la même gamelle du lendemain, et trois soirs par semaine où l'on cuisine un peu plus - pour varier, à votre rythme.</p>
+    <div class="sign">Construit pour vous après notre consultation du 4 août 2026 - Florian Loustalet, diététicien-nutritionniste<br>Mise à jour du 5 octobre 2026 - semaine 1 et semaine 2</div>
   </div>
 </header>
 
@@ -255,18 +277,23 @@
 
 <nav class="jump">
   <div class="jump-inner">
-    <a href="#semaine">La semaine</a>
-    <a href="#recettes">Les 3 recettes</a>
+    <a href="#semaine" data-go="semaine">La semaine</a>
+    <a href="#recettes" data-go="recettes">Les 3 recettes</a>
+    <a href="#courses" data-go="courses">Liste de courses</a>
     <a href="#gouter">Muesli &amp; barres</a>
     <a href="#reperes">Les quantités</a>
     <a href="#rituel">Rituel du soir</a>
-    <a href="#courses">Liste de courses</a>
   </div>
 </nav>
 
-<!-- ===================== SEMAINE ===================== -->
-<section id="semaine">
-  <h2><span class="num">1</span> Votre semaine, jour par jour</h2>
+<div class="switch" role="tablist">
+  <button type="button" role="tab" data-week="w1" aria-selected="false"><span class="k">Semaine 1</span><span class="v">Mardi 6 → lundi 12 octobre</span></button>
+  <button type="button" role="tab" data-week="w2" aria-selected="false"><span class="k">Pont + semaine 2</span><span class="v">Mardi 13 → samedi 24 octobre</span></button>
+</div>
+
+<div class="week" id="w1">
+<section id="w1-semaine">
+  <h2><span class="num">1</span> Semaine 1, jour par jour</h2>
   <p class="lede">
     Le principe ne change pas : <b>le repas du soir se fait en double</b>. Une part dans l'assiette, une part dans la gamelle du lendemain midi. Le midi est réglé sans y penser.
   </p>
@@ -490,9 +517,8 @@
   </div>
 </section>
 
-<!-- ===================== RECETTES ===================== -->
-<section id="recettes">
-  <h2><span class="num">2</span> Les 3 recettes de la semaine</h2>
+<section id="w1-recettes">
+  <h2><span class="num">2</span> Les 3 recettes de la semaine 1</h2>
   <p class="lede">Les quantités sont données <b>pour 2 parts</b> : celle du repas et celle de la gamelle. Rien de technique, une poêle et un four suffisent.</p>
 
   <div class="recipes">
@@ -563,142 +589,8 @@
   </div>
 </section>
 
-<!-- ===================== GOUTER ===================== -->
-<section id="gouter">
-  <h2><span class="num">3</span> Muesli &amp; barres : mes repères</h2>
-  <p class="lede">Vous m'avez dit que c'était la galère pour trouver une composition qui vous convienne. On simplifie.</p>
-
-  <div class="two">
-    <div class="card">
-      <h3 style="margin:0 0 8px;font-size:16px">Pour les barres</h3>
-      <p style="margin:0 0 10px;font-size:15px">Je vous propose <b>Nature Valley</b> ou <b>Clif Bar</b> : faciles à trouver et pratiques à glisser dans le sac pour la collation de 10h30.</p>
-      <p style="margin:0;font-size:14px;color:var(--ink-soft)">Une Clif Bar est plus grosse qu'une barre Nature Valley : au goûter, une demie suffit.</p>
-    </div>
-    <div class="card">
-      <h3 style="margin:0 0 8px;font-size:16px">Si le muesli reste introuvable</h3>
-      <p style="margin:0 0 6px;font-size:15px">Au goûter, ces options remplacent les 30 g de muesli, avec les 100 g de fromage blanc et le fruit :</p>
-      <ul style="margin:0;padding-left:18px;font-size:14.5px">
-        <li><b>1 barre</b> Nature Valley, émiettée dans le fromage blanc ou à côté</li>
-        <li><b>30 g</b> de flocons d'avoine + quelques pépites de chocolat ou 1 c. à café de beurre de cacahuète</li>
-        <li><b>1 tranche</b> de pain complet + un peu de chocolat noir</li>
-      </ul>
-    </div>
-  </div>
-  <div class="callout">
-    <b>En rayon, un seul repère suffit :</b> une liste d'ingrédients courte, où les céréales arrivent en premier. Pas besoin de chercher le produit parfait : celui que vous mangez avec plaisir et régularité est le bon.
-  </div>
-</section>
-
-<!-- ===================== REPÈRES ===================== -->
-<section id="reperes">
-  <h2><span class="num">4</span> Les quantités, une fois pour toutes</h2>
-  <p class="lede">
-    Rien de nouveau ici, et c'est voulu : ce sont les grammages de <b>votre plan alimentaire</b>. Les plats changent, la structure reste - c'est exactement ça, le pilote automatique.
-  </p>
-
-  <div class="prot">
-    <div style="font-size:16px;font-weight:800;margin-bottom:4px">La structure d'une journée</div>
-    <div style="font-size:14.8px;color:var(--ink-soft)">Quatre rendez-vous. Chacun a une composition fixe.</div>
-
-    <div class="prot-grid">
-      <div class="gauge">
-        <div class="lab">Petit-déjeuner</div>
-        <div class="val" style="font-size:19px">Porridge + shaker</div>
-        <ul style="margin:0;padding-left:18px;font-size:14.5px">
-          <li><b>50 g</b> de flocons d'avoine <span style="color:var(--ink-soft)">(= 60 g de pain complet)</span></li>
-          <li><b>100 g</b> de protéines : 1 shaker, ou 2 tranches de jambon ou de poulet</li>
-          <li><b>100 g</b> de fromage blanc nature 3 %</li>
-          <li><b>1</b> fruit ou compote sans sucres ajoutés</li>
-        </ul>
-      </div>
-
-      <div class="gauge">
-        <div class="lab">Déjeuner &amp; dîner</div>
-        <div class="val" style="font-size:19px">Toujours 5 briques</div>
-        <ul style="margin:0;padding-left:18px;font-size:14.5px">
-          <li><b>50 g</b> de féculent cru = <b>100 g</b> cuit <span style="color:var(--ink-soft)">(ou 300 g de pommes de terre ou de patate douce, ou 250 g de gnocchis)</span></li>
-          <li><b>200 g</b> de légumes minimum <span style="color:var(--ink-soft)">(la salade ne compte pas, elle est en plus)</span></li>
-          <li><b>100 g</b> de protéines animales <b>ou 150 g</b> de végétales (lentilles, pois chiches, tofu)</li>
-          <li><b>1 c. à soupe</b> d'huile - ou son équivalent : pesto, lait de coco, ¼ d'avocat</li>
-          <li><b>Le dessert : 100 g</b> de laitage nature, <b>+ 1 fruit au déjeuner</b></li>
-        </ul>
-      </div>
-
-      <div class="gauge">
-        <div class="lab">Goûter de 16h30</div>
-        <div class="val" style="font-size:19px">Le plus important</div>
-        <ul style="margin:0;padding-left:18px;font-size:14.5px">
-          <li><b>30 g</b> de muesli, ou l'une des <a href="#gouter" style="color:var(--plum)">alternatives</a></li>
-          <li><b>100 g</b> de fromage blanc nature 3 %</li>
-          <li><b>1</b> fruit ou compote</li>
-        </ul>
-      </div>
-
-      <div class="gauge">
-        <div class="lab">Les équivalences</div>
-        <div class="val" style="font-size:19px">Rien n'est figé</div>
-        <ul style="margin:0;padding-left:18px;font-size:14.5px">
-          <li><b>Féculents :</b> pain complet, pâtes, riz, nouilles, semoule, quinoa, pommes de terre, patate douce, gnocchis, galette à wrap - au choix</li>
-          <li><b>Laitage :</b> fromage blanc, yaourt nature, skyr, petits-suisses - un skyr de 150 g fait très bien l'affaire</li>
-          <li><b>Fruit :</b> frais ou en compote sans sucres ajoutés, c'est équivalent</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout peach">
-    <b>Le rappel sur les desserts.</b> Il y en a un à chaque déjeuner et à chaque dîner : <b>100 g de laitage nature</b> - fromage blanc, yaourt, skyr - <b>plus un fruit au déjeuner</b>. Ce n'est ni une option ni une récompense : ça fait partie du repas, au même titre que les féculents.
-  </div>
-
-  <div class="callout">
-    <b>Sur la boîte de thon, précisément.</b> Une conserve standard de thon au naturel, c'est <b>140 g brut, soit environ 110 à 120 g une fois égouttée</b> - pile une portion de protéines. Une boîte = un repas. Même logique pour les sardines et le maquereau.
-  </div>
-</section>
-
-<!-- ===================== RITUEL ===================== -->
-<section id="rituel">
-  <h2><span class="num">5</span> Le rituel du soir · 30 minutes, pas une de plus</h2>
-  <p class="lede">On le relance ce soir. C'est le seul moment d'organisation de la journée : dans l'agenda, avec une alerte, tous les soirs à la même heure. Le cerveau passe beaucoup plus facilement à l'action quand la tâche est déjà « programmée ».</p>
-
-  <div class="card">
-    <div class="timeline">
-      <div class="step">
-        <div class="t">0 → 15 min (20-25 min les soirs recette)</div>
-        <div class="b">Le repas du soir, en <b>double quantité</b>. Assemblage les soirs simples, une vraie recette mercredi et vendredi.</div>
-      </div>
-      <div class="step">
-        <div class="t">Juste après</div>
-        <div class="b">La moitié part directement dans <b>la gamelle du lendemain</b>. Au frigo, c'est fini, on n'y pense plus.</div>
-      </div>
-      <div class="step">
-        <div class="t">Pendant que ça cuit ou juste après</div>
-        <div class="b">Le <b>porridge du lendemain</b> dans un pot : <b>50 g</b> de flocons + <b>100 g</b> de fromage blanc + <b>1 compote</b>. Au frigo. (Les pépites de chocolat le matin, pour le plaisir de les ajouter.)</div>
-      </div>
-      <div class="step">
-        <div class="t">Les dernières minutes</div>
-        <div class="b">Tout au lave-vaisselle. <b>Minuteur terminé = on s'arrête</b>, même si ce n'est pas parfait.</div>
-      </div>
-    </div>
-
-    <div class="callout peach">
-      <b>Le contrat.</b> 30 minutes maximum, y compris les soirs recette : le porridge se prépare pendant la cuisson. S'il reste de la vaisselle, elle attend demain. Le but n'est pas une cuisine impeccable, c'est deux repas prêts.
-    </div>
-  </div>
-
-  <div class="card">
-    <h3 style="margin:0 0 10px;font-size:16px">À caler dans l'agenda cette semaine</h3>
-    <ul class="check">
-      <li><input type="checkbox" id="a1"><label for="a1">Réactiver l'alerte récurrente <b>« 30 min cuisine »</b>, tous les soirs à heure fixe</label></li>
-      <li><input type="checkbox" id="a2"><label for="a2">Alerte <b>« collation »</b> à 10h30 et 16h30 (les deux trous de la journée)</label></li>
-      <li><input type="checkbox" id="a3"><label for="a3">Un créneau de courses lundi soir ou mardi - <b>avec la liste ci-dessous</b></label></li>
-      <li><input type="checkbox" id="a4"><label for="a4">Dimanche midi : un créneau de 25 minutes pour le chili (c'est lui qui règle lundi)</label></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ===================== COURSES ===================== -->
-<section id="courses">
-  <h2><span class="num">6</span> La liste de courses</h2>
+<section id="w1-courses">
+  <h2><span class="num">3</span> La liste de courses · semaine 1</h2>
   <p class="lede">Vous prenez ça, vous ne réfléchissez pas. Cochez au fur et à mesure dans le magasin.</p>
 
   <div class="callout peach">
@@ -798,10 +690,552 @@
     </div>
   </div>
 </section>
+</div>
+
+<div class="week" id="w2">
+<section id="w2-semaine">
+  <h2><span class="num">1</span> Semaine 2, jour par jour</h2>
+  <p class="lede">Même principe : <b>le repas du soir se fait en double</b>, la deuxième part devient la gamelle du lendemain midi. La semaine 2 démarre un samedi, comme vous l'aviez proposé.</p>
+
+  <div class="callout sage">
+    <b>Avant la semaine 2, un petit retour ?</b> Dites-moi quelles recettes de la semaine 1 vous ont plu : on les gardera dans votre répertoire, et celles qui ne vous ont pas convaincue, on les remplace. On avance progressivement, et chaque recette adoptée est un petit pas de plus vers plus de liberté.
+  </div>
+
+  <div class="callout peach">
+    <b>Cette semaine 2 couvre le samedi 17 au samedi 24 octobre.</b> La formule ne change pas :
+    <ul style="margin:8px 0 0;padding-left:20px">
+      <li><b>3 recettes, toutes nouvelles</b> : gratin de pâtes (dimanche midi), curry de poulet à la butternut (mardi soir), poêlée de dinde aux champignons (vendredi soir).</li>
+      <li>Les autres soirs en assemblage, avec trois nouveaux plats sans cuisson ou presque (wraps, salade de lentilles, pâtes thon-tomate) et le couscous que vous connaissez.</li>
+      <li><b>Un soir libre</b> : samedi 17.</li>
+      <li>Et pour faire la jonction, <b>un pont de quatre jours</b> du mardi 13 au vendredi 16, juste en dessous.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    Toujours <b>sans œufs</b> et sans saumon. Et toujours la même consigne : <b>si vous n'avez ni balance ni envie de peser, mangez à votre faim et passez à la suite</b>.
+  </div>
+
+  <div class="pont">
+    <div class="pont-head"><b>Le pont · mardi 13 → vendredi 16 octobre</b><br><span style="font-size:14px;color:var(--ink-soft)">Quatre jours d'assemblage avec des plats que vous connaissez déjà, pour faire la jonction entre les deux semaines sans repartir en roue libre. Matins, collations, goûters et desserts : comme d'habitude.</span></div>
+    <div class="pont-row"><div class="dd">Mardi 13</div><div><span class="lbl">Midi</span>Gamelle : poke bowl (préparé lundi soir)</div><div><span class="lbl">Soir</span><b>Taboulé au poulet</b> - <b>60 g</b> de semoule + <b>100 g</b> de poulet en tranches + <b>200 g</b> de tomates &amp; concombre + menthe + citron + <b>1 c. à soupe</b> d'huile <span class="arrow">↳ ×2 = gamelle de mercredi</span></div></div>
+    <div class="pont-row"><div class="dd">Mercredi 14</div><div><span class="lbl">Midi</span>Gamelle : taboulé au poulet</div><div><span class="lbl">Soir</span><b>Pâtes froides au pesto</b> - <b>50 g</b> de pâtes crues + <b>100 g</b> de dés de dinde + <b>200 g</b> de tomates cerises + roquette + <b>1 c. à soupe</b> de pesto + quelques billes de mozzarella <span class="arrow">↳ ×2 = gamelle de jeudi</span></div></div>
+    <div class="pont-row"><div class="dd">Jeudi 15</div><div><span class="lbl">Midi</span>Gamelle : pâtes au pesto</div><div><span class="lbl">Soir</span><b>Dahl minute</b> - <b>150 g</b> de lentilles en boîte + <b>½ sachet</b> de riz précuit + <b>200 g</b> d'épinards surgelés + <b>100 ml</b> de lait de coco + curry, tout au micro-ondes <span class="arrow">↳ ×2 = gamelle de vendredi</span></div></div>
+    <div class="pont-row"><div class="dd">Vendredi 16</div><div><span class="lbl">Midi</span>Gamelle : dahl</div><div><span class="lbl">Soir</span><b>Salade de riz au thon</b> - <b>½ sachet</b> de riz précuit + <b>1 boîte de thon</b> + maïs + <b>200 g</b> de tomates + <b>1 c. à soupe</b> d'huile + citron <span class="arrow">↳ ×2 = gamelle de samedi 17</span></div></div>
+    <div class="pont-foot"><b>Courses du pont</b> (à faire lundi 12 ou mardi 13) : semoule, blanc de poulet en tranches 200 g, dés de dinde 200 g, pâtes 100 g, pesto, billes de mozzarella, roquette, tomates cerises ×4 barquettes, concombre ×1, menthe, lentilles ×1 grande boîte, épinards surgelés, lait de coco 20 cl, riz précuit ×2 sachets, thon ×2 boîtes, maïs, citrons - plus les laitages, fruits et compotes qui manquent.</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="d">Samedi 17 octobre</span><span class="tag">On ouvre la semaine 2</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + shaker - ou <b>60 g</b> de pain complet + beurre de cacahuète + banane + <b>100 g</b> de fromage blanc</div>
+      </div>
+      <div class="meal">
+        <div class="when">Milieu de matinée</div>
+        <div class="what">Selon la faim</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : salade de riz au thon (préparée vendredi soir)<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what">Ce qui vous fait plaisir. Vraiment.</div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><b>Libre</b> - restaurant, sortie, apéro, ou ce qui vous tente</div>
+        <div class="note">Un soir sans plan par semaine fait partie du plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day cook">
+    <div class="day-head"><span class="d">Dimanche 18 octobre</span><span class="tag">Recette n°1 · le four travaille</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Milieu de matinée</div>
+        <div class="what">Selon la faim</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><span class="badge">Recette</span><b>Gratin de pâtes, jambon &amp; brocoli</b> - la recette est détaillée plus bas<br><b>Dessert :</b> 100 g de fromage blanc + 1 fruit</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de lundi midi</span>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge re" style="background:var(--plum)">Nouveau</span><b>Wraps poulet-crudités</b> (zéro cuisson) : <b>2 galettes</b> de blé + <b>100 g</b> de blanc de poulet en tranches + <b>200 g</b> de carottes râpées &amp; salade + sauce fromage blanc-citron + <b>1 c. à soupe</b> d'huile d'olive dans la sauce<br><b>Dessert :</b> 100 g de fromage blanc</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="d">Lundi 19 octobre</span><span class="tag">Assemblage</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what"><b>30 g</b> d'amandes + <b>1 compote</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : gratin de pâtes, jambon &amp; brocoli<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge re" style="background:var(--plum)">Nouveau</span><b>Salade de lentilles &amp; carottes</b> : <b>150 g</b> de lentilles en boîte égouttées + <b>200 g</b> de carottes râpées + oignon rouge ou ciboulette + vinaigrette (<b>1 c. à soupe</b> d'huile + moutarde + vinaigre) + <b>60 g</b> de pain complet à côté<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de mardi midi (prenez le pain à part)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day cook">
+    <div class="day-head"><span class="d">Mardi 20 octobre</span><span class="tag">Recette n°2 · 20 min</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what"><b>1 barre</b> Nature Valley ou Clif Bar + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : salade de lentilles &amp; carottes + pain<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge">Recette</span><b>Curry de poulet, butternut &amp; coco</b> - la recette est détaillée plus bas<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de mercredi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="d">Mercredi 21 octobre</span><span class="tag">15 min chrono</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what"><b>30 g</b> de noix de cajou + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : curry de poulet, butternut &amp; riz<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge re" style="background:var(--plum)">Nouveau</span><b>Pâtes express thon-tomate</b> : <b>50 g</b> de pâtes crues (10 min dans l'eau) + <b>1 boîte de thon</b> égouttée + <b>200 g</b> de courgettes grillées surgelées + 3 c. à soupe de sauce tomate + <b>1 c. à soupe</b> d'huile d'olive + basilic<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de jeudi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="d">Jeudi 22 octobre</span><span class="tag">On souffle · assemblage</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what"><b>1 barre</b> Nature Valley ou Clif Bar + <b>1 compote</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : pâtes thon-tomate<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge re">Déjà testé</span><b>Couscous express</b> : <b>60 g</b> de semoule crue gonflée + <b>150 g</b> de pois chiches égouttés + <b>200 g</b> de poêlée de légumes + paprika-curry + <b>1 c. à soupe</b> d'huile d'olive<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de vendredi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day cook">
+    <div class="day-head"><span class="d">Vendredi 23 octobre</span><span class="tag">Recette n°3 · une poêle</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge (<b>50 g</b> flocons + <b>100 g</b> fromage blanc + <b>1 compote</b>) + <b>1 shaker</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">10h30 · collation</div>
+        <div class="what"><b>30 g</b> d'amandes + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : couscous pois chiches-légumes<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge">Recette</span><b>Poêlée de dinde, champignons &amp; pommes de terre</b> - la recette est détaillée plus bas<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <span class="arrow">↳ Doublez tout = la gamelle de samedi midi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="d">Samedi 24 octobre</span><span class="tag">Fin de la semaine 2</span></div>
+    <div class="meals">
+      <div class="meal">
+        <div class="when">Matin</div>
+        <div class="what">Porridge + shaker - ou <b>60 g</b> de pain complet + beurre de cacahuète + banane + <b>100 g</b> de fromage blanc</div>
+      </div>
+      <div class="meal">
+        <div class="when">Milieu de matinée</div>
+        <div class="what">Selon la faim</div>
+      </div>
+      <div class="meal">
+        <div class="when">Midi</div>
+        <div class="what"><b>Gamelle</b> : poêlée de dinde, champignons &amp; pommes de terre<br><b>Dessert :</b> 1 skyr (150 g) + 1 fruit</div>
+      </div>
+      <div class="meal">
+        <div class="when">16h30 · goûter</div>
+        <div class="what"><b>30 g</b> de muesli (ou l'une des alternatives) + <b>100 g</b> de fromage blanc + <b>1 fruit</b></div>
+      </div>
+      <div class="meal">
+        <div class="when">Soir</div>
+        <div class="what"><span class="badge re">Déjà testé</span><b>Salade de riz au thon, 3 minutes</b> : <b>½ sachet</b> de riz précuit + <b>1 boîte de thon</b> égouttée + maïs + <b>200 g</b> de tomates + <b>1 c. à soupe</b> d'huile d'olive + citron<br><b>Dessert :</b> 100 g de fromage blanc</div>
+        <div class="note">Si vous êtes de sortie ce soir-là, profitez-en : ce repas peut glisser au dimanche. La suite arrive avant la fin de la semaine - envoyez-moi vos retours d'ici là.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout sage">
+    <b>Une recette ne vous plaît pas ?</b> Dites-le moi, on la remplace. Ce document évolue avec vos retours.
+  </div>
+</section>
+
+
+<section id="w2-recettes">
+  <h2><span class="num">2</span> Les 3 recettes de la semaine 2</h2>
+  <p class="lede">Les quantités sont données <b>pour 2 parts</b> : celle du repas et celle de la gamelle.</p>
+
+  <div class="recipes">
+    <div class="recipe">
+      <h3>🧀 Gratin de pâtes, jambon &amp; brocoli</h3>
+      <div class="meta">Dimanche midi · 10 min de préparation + 20 min de four</div>
+      <div class="lab">Pour 2 parts</div>
+      <ul>
+        <li><b>100 g</b> de pâtes courtes crues</li>
+        <li><b>400 g</b> de brocoli surgelé en fleurettes</li>
+        <li><b>200 g</b> de dés de jambon</li>
+        <li>Sauce : <b>150 g</b> de fromage blanc + <b>2 c. à soupe</b> de crème fraîche + muscade, sel, poivre</li>
+        <li><b>40 g</b> de fromage râpé pour le dessus</li>
+      </ul>
+      <div class="lab">Étapes</div>
+      <ol>
+        <li>Four à 200 °C. Faites cuire les pâtes 8 min, en ajoutant le brocoli dans la même eau les 4 dernières minutes. Égouttez.</li>
+        <li>Mélangez dans le plat : pâtes, brocoli, jambon et la sauce.</li>
+        <li>Fromage râpé par-dessus, 20 min au four jusqu'à ce que ça dore.</li>
+      </ol>
+      <div class="tip">Pendant la cuisson : la vaisselle et le porridge de lundi. Le gratin se réchauffe très bien au micro-ondes.</div>
+    </div>
+
+    <div class="recipe">
+      <h3>🍛 Curry de poulet, butternut &amp; coco</h3>
+      <div class="meta">Mardi soir · 20 min · une poêle ou une sauteuse</div>
+      <div class="lab">Pour 2 parts</div>
+      <ul>
+        <li><b>200 g</b> de filet de poulet</li>
+        <li><b>400 g</b> de courge butternut en cubes surgelés (ou 300 g de butternut + 1 poignée d'épinards)</li>
+        <li><b>200 ml</b> de lait de coco (c'est lui le gras du repas)</li>
+        <li><b>1 sachet</b> de riz précuit (~250 g, soit 2 parts)</li>
+        <li>1 oignon + 2 c. à café de curry + sel</li>
+      </ul>
+      <div class="lab">Étapes</div>
+      <ol>
+        <li>Émincez l'oignon et coupez le poulet en dés.</li>
+        <li>Faites revenir l'oignon 3 min, ajoutez le poulet et le curry, 5 min.</li>
+        <li>Ajoutez la butternut et le lait de coco, couvrez, 10 à 12 min à feu doux jusqu'à ce que la courge soit fondante.</li>
+        <li>Réchauffez le riz, servez. La deuxième part va dans la gamelle.</li>
+      </ol>
+      <div class="tip">Pas d'huile ce soir-là : le lait de coco joue ce rôle.</div>
+    </div>
+
+    <div class="recipe">
+      <h3>🍄 Poêlée de dinde, champignons &amp; pommes de terre</h3>
+      <div class="meta">Vendredi soir · 25 min · une grande poêle</div>
+      <div class="lab">Pour 2 parts</div>
+      <ul>
+        <li><b>200 g</b> d'escalope de dinde</li>
+        <li><b>600 g</b> de pommes de terre vapeur sous vide</li>
+        <li><b>400 g</b> de légumes : 250 g de champignons émincés + 150 g de haricots verts surgelés</li>
+        <li><b>2 c. à soupe</b> d'huile + ail &amp; persil (surgelés) + sel, poivre</li>
+      </ul>
+      <div class="lab">Étapes</div>
+      <ol>
+        <li>Coupez les pommes de terre en rondelles et faites-les dorer 10 min avec 1 c. à soupe d'huile.</li>
+        <li>Poussez-les sur le côté, ajoutez l'autre cuillère d'huile, la dinde en dés et les champignons : 8 min.</li>
+        <li>Ajoutez les haricots verts, l'ail et le persil, 5 min en remuant. C'est prêt.</li>
+      </ol>
+      <div class="tip">Les pommes de terre déjà cuites sous vide font gagner 20 minutes : on ne fait que les dorer.</div>
+    </div>
+  </div>
+</section>
+
+
+<section id="w2-courses">
+  <h2><span class="num">3</span> La liste de courses · semaine 2</h2>
+  <p class="lede">Pour le samedi 17 au samedi 24 octobre. Le pont a sa petite liste à part, dans le planning. Cochez au fur et à mesure dans le magasin.</p>
+  <div class="callout peach"><b>Ne rachetez que ce qui manque</b> : le placard a sûrement des restes de la semaine 1 (flocons, compotes, huiles, épices, riz).</div>
+  <div class="shop">
+    <div class="aisle">
+      <h3>🍚 Féculents</h3>
+      <ul>
+        <li><input type="checkbox" id="d1"><label for="d1">Pâtes courtes <b>1 paquet</b> <span style="color:var(--ink-soft)">(gratin + pâtes thon-tomate, 200 g en tout)</span></label></li>
+        <li><input type="checkbox" id="d2"><label for="d2">Galettes de blé type wrap <b>×1 paquet</b> <span style="color:var(--ink-soft)">(2 pour dimanche soir)</span></label></li>
+        <li><input type="checkbox" id="d3"><label for="d3">Pain complet <b>1</b> <span style="color:var(--ink-soft)">(salade de lentilles ×2 + samedis matin)</span></label></li>
+        <li><input type="checkbox" id="d4"><label for="d4">Sachets de riz précuit <b>×2</b> <span style="color:var(--ink-soft)">(curry + salade de riz du samedi 24)</span></label></li>
+        <li><input type="checkbox" id="d5"><label for="d5">Semoule <b>120 g</b> <span style="color:var(--ink-soft)">(couscous ×2)</span></label></li>
+        <li><input type="checkbox" id="d6"><label for="d6">Pommes de terre vapeur sous vide <b>600 g</b> <span style="color:var(--ink-soft)">(poêlée de dinde)</span></label></li>
+        <li><input type="checkbox" id="d7"><label for="d7">Flocons d'avoine - <span style="color:var(--ink-soft)">seulement si épuisés</span></label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥩 Protéines</h3>
+      <ul>
+        <li><input type="checkbox" id="d8"><label for="d8">Dés de jambon <b>200 g</b> <span style="color:var(--ink-soft)">(gratin)</span></label></li>
+        <li><input type="checkbox" id="d9"><label for="d9">Blanc de poulet en tranches <b>100 g</b> <span style="color:var(--ink-soft)">(wraps)</span></label></li>
+        <li><input type="checkbox" id="d10"><label for="d10">Filets de poulet <b>200 g</b> <span style="color:var(--ink-soft)">(curry)</span></label></li>
+        <li><input type="checkbox" id="d11"><label for="d11">Escalopes de dinde <b>200 g</b> <span style="color:var(--ink-soft)">(poêlée)</span></label></li>
+        <li><input type="checkbox" id="d12"><label for="d12">Thon au naturel <b>×3 boîtes de 140 g</b> <span style="color:var(--ink-soft)">(pâtes ×2 + salade de riz)</span></label></li>
+        <li><input type="checkbox" id="d13"><label for="d13">Lentilles <b>×1 grande boîte</b> <span style="color:var(--ink-soft)">(300 g égouttées, salade ×2)</span></label></li>
+        <li><input type="checkbox" id="d14"><label for="d14">Pois chiches <b>×1 grande boîte</b> <span style="color:var(--ink-soft)">(couscous ×2)</span></label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥛 Frais &amp; laitages</h3>
+      <ul>
+        <li><input type="checkbox" id="d15"><label for="d15">Fromage blanc nature 3 % <b>×2 pots de 1 kg</b> <span style="color:var(--ink-soft)">(+ 150 g pour la sauce du gratin)</span></label></li>
+        <li><input type="checkbox" id="d16"><label for="d16">Skyr ou yaourts nature <b>×8 pots</b></label></li>
+        <li><input type="checkbox" id="d17"><label for="d17">Crème fraîche <b>×1 petit pot</b> <span style="color:var(--ink-soft)">(gratin)</span></label></li>
+        <li><input type="checkbox" id="d18"><label for="d18">Fromage râpé <b>×1 sachet</b> <span style="color:var(--ink-soft)">(gratin)</span></label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🥕 Légumes</h3>
+      <ul>
+        <li><input type="checkbox" id="d19"><label for="d19">Brocoli surgelé <b>400 g</b> <span style="color:var(--ink-soft)">(gratin)</span></label></li>
+        <li><input type="checkbox" id="d20"><label for="d20">Carottes râpées <b>×2 barquettes</b> + salade <b>×1 sachet</b> <span style="color:var(--ink-soft)">(wraps + lentilles)</span></label></li>
+        <li><input type="checkbox" id="d21"><label for="d21">Butternut en cubes surgelés <b>400 g</b> + oignons <b>×2</b> <span style="color:var(--ink-soft)">(curry)</span></label></li>
+        <li><input type="checkbox" id="d22"><label for="d22">Courgettes grillées surgelées <b>400 g</b> + sauce tomate <b>×1 bocal</b> <span style="color:var(--ink-soft)">(pâtes thon)</span></label></li>
+        <li><input type="checkbox" id="d23"><label for="d23">Poêlée de légumes surgelée <b>400 g</b> <span style="color:var(--ink-soft)">(couscous)</span></label></li>
+        <li><input type="checkbox" id="d24"><label for="d24">Champignons émincés <b>250 g</b> + haricots verts surgelés <b>150 g</b> <span style="color:var(--ink-soft)">(poêlée)</span></label></li>
+        <li><input type="checkbox" id="d25"><label for="d25">Tomates <b>200 g</b> + maïs <b>×1 petite boîte</b> <span style="color:var(--ink-soft)">(salade de riz)</span></label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🍫 Collations</h3>
+      <ul>
+        <li><input type="checkbox" id="d26"><label for="d26">Barres <b>Nature Valley ou Clif Bar</b> <b>×1 boîte</b></label></li>
+        <li><input type="checkbox" id="d27"><label for="d27">Compotes sans sucres ajoutés <b>×12</b></label></li>
+        <li><input type="checkbox" id="d28"><label for="d28">Amandes + noix de cajou - <span style="color:var(--ink-soft)">si le sachet est fini</span></label></li>
+        <li><input type="checkbox" id="d29"><label for="d29">Fruits de saison <b>×16</b> : pommes, poires, clémentines, raisin, kiwis</label></li>
+        <li><input type="checkbox" id="d30"><label for="d30">Muesli, pépites de chocolat, beurre de cacahuète - <span style="color:var(--ink-soft)">si épuisés</span></label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>🧂 Le tiroir « goût »</h3>
+      <ul>
+        <li><input type="checkbox" id="d31"><label for="d31">Lait de coco <b>×1 brique de 20 cl</b> + curry <span style="color:var(--ink-soft)">(curry de poulet)</span></label></li>
+        <li><input type="checkbox" id="d32"><label for="d32">Ail &amp; persil surgelés <span style="color:var(--ink-soft)">(poêlée)</span></label></li>
+        <li><input type="checkbox" id="d33"><label for="d33">Muscade, moutarde, vinaigre <span style="color:var(--ink-soft)">(gratin + vinaigrette)</span></label></li>
+        <li><input type="checkbox" id="d34"><label for="d34">Citrons <b>×2</b>, basilic, ciboulette</label></li>
+      </ul>
+    </div>
+
+    <div class="aisle">
+      <h3>📦 À vérifier</h3>
+      <ul>
+        <li><input type="checkbox" id="d35"><label for="d35"><b>Protéine végétale en poudre</b> - où en est le stock ? <span style="color:var(--ink-soft)">(30 g par shaker, 1 par matin)</span></label></li>
+        <li><input type="checkbox" id="d36"><label for="d36">Un plat à gratin pour dimanche</label></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<!-- ===================== COMMUN AUX DEUX SEMAINES ===================== -->
+<section id="gouter">
+  <h2><span class="num">4</span> Muesli &amp; barres : mes repères</h2>
+  <p class="lede">Vous m'avez dit que c'était la galère pour trouver une composition qui vous convienne. On simplifie.</p>
+
+  <div class="two">
+    <div class="card">
+      <h3 style="margin:0 0 8px;font-size:16px">Pour les barres</h3>
+      <p style="margin:0 0 10px;font-size:15px">Je vous propose <b>Nature Valley</b> ou <b>Clif Bar</b> : faciles à trouver et pratiques à glisser dans le sac pour la collation de 10h30.</p>
+      <p style="margin:0;font-size:14px;color:var(--ink-soft)">Une Clif Bar est plus grosse qu'une barre Nature Valley : au goûter, une demie suffit.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px;font-size:16px">Si le muesli reste introuvable</h3>
+      <p style="margin:0 0 6px;font-size:15px">Au goûter, ces options remplacent les 30 g de muesli, avec les 100 g de fromage blanc et le fruit :</p>
+      <ul style="margin:0;padding-left:18px;font-size:14.5px">
+        <li><b>1 barre</b> Nature Valley, émiettée dans le fromage blanc ou à côté</li>
+        <li><b>30 g</b> de flocons d'avoine + quelques pépites de chocolat ou 1 c. à café de beurre de cacahuète</li>
+        <li><b>1 tranche</b> de pain complet + un peu de chocolat noir</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">
+    <b>En rayon, un seul repère suffit :</b> une liste d'ingrédients courte, où les céréales arrivent en premier. Pas besoin de chercher le produit parfait : celui que vous mangez avec plaisir et régularité est le bon.
+  </div>
+</section>
+
+<section id="reperes">
+  <h2><span class="num">5</span> Les quantités, une fois pour toutes</h2>
+  <p class="lede">
+    Rien de nouveau ici, et c'est voulu : ce sont les grammages de <b>votre plan alimentaire</b>. Les plats changent, la structure reste - c'est exactement ça, le pilote automatique.
+  </p>
+
+  <div class="prot">
+    <div style="font-size:16px;font-weight:800;margin-bottom:4px">La structure d'une journée</div>
+    <div style="font-size:14.8px;color:var(--ink-soft)">Quatre rendez-vous. Chacun a une composition fixe.</div>
+
+    <div class="prot-grid">
+      <div class="gauge">
+        <div class="lab">Petit-déjeuner</div>
+        <div class="val" style="font-size:19px">Porridge + shaker</div>
+        <ul style="margin:0;padding-left:18px;font-size:14.5px">
+          <li><b>50 g</b> de flocons d'avoine <span style="color:var(--ink-soft)">(= 60 g de pain complet)</span></li>
+          <li><b>100 g</b> de protéines : 1 shaker, ou 2 tranches de jambon ou de poulet</li>
+          <li><b>100 g</b> de fromage blanc nature 3 %</li>
+          <li><b>1</b> fruit ou compote sans sucres ajoutés</li>
+        </ul>
+      </div>
+
+      <div class="gauge">
+        <div class="lab">Déjeuner &amp; dîner</div>
+        <div class="val" style="font-size:19px">Toujours 5 briques</div>
+        <ul style="margin:0;padding-left:18px;font-size:14.5px">
+          <li><b>50 g</b> de féculent cru = <b>100 g</b> cuit <span style="color:var(--ink-soft)">(ou 300 g de pommes de terre ou de patate douce, ou 250 g de gnocchis)</span></li>
+          <li><b>200 g</b> de légumes minimum <span style="color:var(--ink-soft)">(la salade ne compte pas, elle est en plus)</span></li>
+          <li><b>100 g</b> de protéines animales <b>ou 150 g</b> de végétales (lentilles, pois chiches, tofu)</li>
+          <li><b>1 c. à soupe</b> d'huile - ou son équivalent : pesto, lait de coco, ¼ d'avocat</li>
+          <li><b>Le dessert : 100 g</b> de laitage nature, <b>+ 1 fruit au déjeuner</b></li>
+        </ul>
+      </div>
+
+      <div class="gauge">
+        <div class="lab">Goûter de 16h30</div>
+        <div class="val" style="font-size:19px">Le plus important</div>
+        <ul style="margin:0;padding-left:18px;font-size:14.5px">
+          <li><b>30 g</b> de muesli, ou l'une des <a href="#gouter" style="color:var(--plum)">alternatives</a></li>
+          <li><b>100 g</b> de fromage blanc nature 3 %</li>
+          <li><b>1</b> fruit ou compote</li>
+        </ul>
+      </div>
+
+      <div class="gauge">
+        <div class="lab">Les équivalences</div>
+        <div class="val" style="font-size:19px">Rien n'est figé</div>
+        <ul style="margin:0;padding-left:18px;font-size:14.5px">
+          <li><b>Féculents :</b> pain complet, pâtes, riz, nouilles, semoule, quinoa, pommes de terre, patate douce, gnocchis, galette à wrap - au choix</li>
+          <li><b>Laitage :</b> fromage blanc, yaourt nature, skyr, petits-suisses - un skyr de 150 g fait très bien l'affaire</li>
+          <li><b>Fruit :</b> frais ou en compote sans sucres ajoutés, c'est équivalent</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout peach">
+    <b>Le rappel sur les desserts.</b> Il y en a un à chaque déjeuner et à chaque dîner : <b>100 g de laitage nature</b> - fromage blanc, yaourt, skyr - <b>plus un fruit au déjeuner</b>. Ce n'est ni une option ni une récompense : ça fait partie du repas, au même titre que les féculents.
+  </div>
+
+  <div class="callout">
+    <b>Sur la boîte de thon, précisément.</b> Une conserve standard de thon au naturel, c'est <b>140 g brut, soit environ 110 à 120 g une fois égouttée</b> - pile une portion de protéines. Une boîte = un repas. Même logique pour les sardines et le maquereau.
+  </div>
+</section>
+
+<section id="rituel">
+  <h2><span class="num">6</span> Le rituel du soir · 30 minutes, pas une de plus</h2>
+  <p class="lede">On le relance ce soir. C'est le seul moment d'organisation de la journée : dans l'agenda, avec une alerte, tous les soirs à la même heure. Le cerveau passe beaucoup plus facilement à l'action quand la tâche est déjà « programmée ».</p>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="step">
+        <div class="t">0 → 15 min (20-25 min les soirs recette)</div>
+        <div class="b">Le repas du soir, en <b>double quantité</b>. Assemblage les soirs simples, une vraie recette les soirs marqués « Recette ».</div>
+      </div>
+      <div class="step">
+        <div class="t">Juste après</div>
+        <div class="b">La moitié part directement dans <b>la gamelle du lendemain</b>. Au frigo, c'est fini, on n'y pense plus.</div>
+      </div>
+      <div class="step">
+        <div class="t">Pendant que ça cuit ou juste après</div>
+        <div class="b">Le <b>porridge du lendemain</b> dans un pot : <b>50 g</b> de flocons + <b>100 g</b> de fromage blanc + <b>1 compote</b>. Au frigo. (Les pépites de chocolat le matin, pour le plaisir de les ajouter.)</div>
+      </div>
+      <div class="step">
+        <div class="t">Les dernières minutes</div>
+        <div class="b">Tout au lave-vaisselle. <b>Minuteur terminé = on s'arrête</b>, même si ce n'est pas parfait.</div>
+      </div>
+    </div>
+
+    <div class="callout peach">
+      <b>Le contrat.</b> 30 minutes maximum, y compris les soirs recette : le porridge se prépare pendant la cuisson. S'il reste de la vaisselle, elle attend demain. Le but n'est pas une cuisine impeccable, c'est deux repas prêts.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 10px;font-size:16px">À caler dans l'agenda</h3>
+    <ul class="check">
+      <li><input type="checkbox" id="a1"><label for="a1">Réactiver l'alerte récurrente <b>« 30 min cuisine »</b>, tous les soirs à heure fixe</label></li>
+      <li><input type="checkbox" id="a2"><label for="a2">Alerte <b>« collation »</b> à 10h30 et 16h30 (les deux trous de la journée)</label></li>
+      <li><input type="checkbox" id="a3"><label for="a3">Un créneau de courses avant chaque semaine - <b>avec la liste de la semaine</b>, et un petit passage pour le pont</label></li>
+      <li><input type="checkbox" id="a4"><label for="a4">Le dimanche midi : un créneau de 30 minutes pour la recette du jour (c'est elle qui règle lundi)</label></li>
+    </ul>
+  </div>
+</section>
 
 <footer>
   <strong>Florian Loustalet</strong> · Diététicien-nutritionniste, Toulouse<br>
-  Document évolutif - vos retours servent à l'ajuster.<br>Version du 5 octobre 2026 · un peu plus de cuisine, à votre demande.
+  Document évolutif - vos retours servent à l'ajuster.<br>Mise à jour du 5 octobre 2026 · semaine 1 (6-12 oct.) et semaine 2 (17-24 oct.), avec le pont du 13 au 16.
 </footer>
 
 </div>
@@ -814,7 +1248,32 @@
       if (li) li.classList.toggle('done', box.checked);
     });
   });
-</script>
 
+  // Onglets semaine 1 / semaine 2
+  var current = 'w1';
+  function showWeek(w){
+    current = w;
+    document.querySelectorAll('.week').forEach(function(el){ el.classList.toggle('active', el.id === w); });
+    document.querySelectorAll('.switch button').forEach(function(b){ b.setAttribute('aria-selected', b.dataset.week === w ? 'true' : 'false'); });
+  }
+  document.querySelectorAll('.switch button').forEach(function(b){
+    b.addEventListener('click', function(){
+      showWeek(b.dataset.week);
+      try { history.replaceState(null, '', b.dataset.week === 'w2' ? '#semaine-2' : '#semaine-1'); } catch(e) {}
+    });
+  });
+  // Les liens « La semaine / recettes / courses » vont dans la semaine affichée
+  document.querySelectorAll('nav.jump a[data-go]').forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var t = document.getElementById(current + '-' + a.dataset.go);
+      if (t) { ev.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+  // Semaine affichée par défaut : la semaine 2 à partir du mardi 13 octobre 2026
+  var h = location.hash;
+  if (h === '#semaine-2') showWeek('w2');
+  else if (h === '#semaine-1') showWeek('w1');
+  else showWeek(new Date() >= new Date(2026, 9, 13) ? 'w2' : 'w1');
+</script>
 </body>
 </html>
